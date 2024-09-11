@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Blog Site</title>
+    <title>Simple Blog with Saved Posts</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,11 +60,7 @@
     <h1>My Simple Blog</h1>
 
     <!-- Blog Posts Section -->
-    <div id="posts">
-        <div class="post">
-            <p>Welcome to my blog! This is the first post.</p>
-        </div>
-    </div>
+    <div id="posts"></div>
 
     <!-- Admin Section -->
     <div id="admin-section" class="hidden">
@@ -96,6 +92,24 @@
         const postsContainer = document.getElementById('posts');
         const newPostContent = document.getElementById('new-post-content');
 
+        // Load posts from localStorage
+        function loadPosts() {
+            const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
+            savedPosts.forEach(postContent => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                postElement.innerHTML = `<p>${postContent}</p>`;
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+        // Save posts to localStorage
+        function savePost(postContent) {
+            const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
+            savedPosts.push(postContent);
+            localStorage.setItem('posts', JSON.stringify(savedPosts));
+        }
+
         // Function to handle login
         document.getElementById('login-button').addEventListener('click', function () {
             const username = document.getElementById('username').value;
@@ -119,11 +133,15 @@
                 postElement.classList.add('post');
                 postElement.innerHTML = `<p>${postContent}</p>`;
                 postsContainer.appendChild(postElement);
+                savePost(postContent); // Save post to localStorage
                 newPostContent.value = '';  // Clear the text area after posting
             } else {
                 alert("Please write something before adding a post!");
             }
         });
+
+        // Load existing posts on page load
+        window.onload = loadPosts;
 
     </script>
 
