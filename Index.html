@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Site</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <h1>My Blog Site</h1>
+    <div id="posts">
+        <p>This is a public post.</p>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="admin-section" class="hidden">
+        <h2>Admin Dashboard</h2>
+        <textarea id="new-post-content" rows="4" cols="50"></textarea>
+        <br>
+        <button id="add-post">Add Post</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="login-button">Login</button>
+    </div>
+
+    <script>
+        const correctUsername = "admin";
+        const correctPassword = "password123";
+
+        document.getElementById('login-button').addEventListener('click', function () {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === correctUsername && password === correctPassword) {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('admin-section').classList.remove('hidden');
+            } else {
+                alert("Incorrect username or password");
+            }
+        });
+
+        document.getElementById('add-post').addEventListener('click', function () {
+            const postContent = document.getElementById('new-post-content').value;
+            if (postContent) {
+                const postElement = document.createElement('p');
+                postElement.textContent = postContent;
+                document.getElementById('posts').appendChild(postElement);
+                document.getElementById('new-post-content').value = '';
+            }
+        });
+    </script>
+
+</body>
+</html>
