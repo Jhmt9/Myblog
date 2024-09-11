@@ -3,24 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Site</title>
+    <title>Simple Blog Site</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .hidden { display: none; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #posts {
+            margin-top: 20px;
+        }
+        .post {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+        }
+        #admin-section, #login-form {
+            background-color: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .hidden {
+            display: none;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
 
-    <h1>My Blog Site</h1>
+    <h1>My Simple Blog</h1>
+
+    <!-- Blog Posts Section -->
     <div id="posts">
-        <p>This is a public post.</p>
+        <div class="post">
+            <p>Welcome to my blog! This is the first post.</p>
+        </div>
     </div>
 
     <!-- Admin Section -->
     <div id="admin-section" class="hidden">
         <h2>Admin Dashboard</h2>
-        <textarea id="new-post-content" rows="4" cols="50"></textarea>
-        <br>
+        <textarea id="new-post-content" rows="4" placeholder="Write your new post here..."></textarea>
         <button id="add-post">Add Post</button>
     </div>
 
@@ -29,34 +78,53 @@
         <h2>Admin Login</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
+        <div id="error-message" class="error hidden">Incorrect username or password</div>
         <button id="login-button">Login</button>
     </div>
 
     <script>
+        // Default credentials (you can modify or enhance this with better storage or backend)
         const correctUsername = "admin";
         const correctPassword = "password123";
 
+        // Login form elements
+        const loginForm = document.getElementById('login-form');
+        const adminSection = document.getElementById('admin-section');
+        const errorMessage = document.getElementById('error-message');
+
+        // Post elements
+        const postsContainer = document.getElementById('posts');
+        const newPostContent = document.getElementById('new-post-content');
+
+        // Function to handle login
         document.getElementById('login-button').addEventListener('click', function () {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
             if (username === correctUsername && password === correctPassword) {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('admin-section').classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                adminSection.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
             } else {
-                alert("Incorrect username or password");
+                errorMessage.classList.remove('hidden');
             }
         });
 
+        // Function to add a new post
         document.getElementById('add-post').addEventListener('click', function () {
-            const postContent = document.getElementById('new-post-content').value;
+            const postContent = newPostContent.value.trim();
+
             if (postContent) {
-                const postElement = document.createElement('p');
-                postElement.textContent = postContent;
-                document.getElementById('posts').appendChild(postElement);
-                document.getElementById('new-post-content').value = '';
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                postElement.innerHTML = `<p>${postContent}</p>`;
+                postsContainer.appendChild(postElement);
+                newPostContent.value = '';  // Clear the text area after posting
+            } else {
+                alert("Please write something before adding a post!");
             }
         });
+
     </script>
 
 </body>
