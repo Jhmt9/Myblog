@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Super GitHub Blog</title>
+    <title>My Super Cool Blog</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #e9ecef;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
             margin: 0;
             padding: 20px;
         }
         h1 {
-            color: #0056b3;
+            color: #4CAF50;
             text-align: center;
+            font-size: 36px;
         }
         #posts {
             margin-top: 20px;
@@ -24,30 +25,60 @@
         .post {
             background-color: #fff;
             border-radius: 8px;
-            border: 1px solid #ddd;
-            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            margin-bottom: 20px;
             padding: 15px;
             box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 600px;
+            text-align: center;
         }
         .post h2 {
-            color: #0056b3;
+            color: #4CAF50;
             margin-bottom: 10px;
         }
         .post p {
             color: #333;
+            font-size: 18px;
         }
         .post img {
             width: 100%;
             border-radius: 8px;
             margin-top: 10px;
         }
+        .like-dislike {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .like-dislike button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .like-dislike button:hover {
+            background-color: #45a049;
+        }
+        .like-dislike .dislike-btn {
+            background-color: #f44336;
+        }
+        .like-dislike .dislike-btn:hover {
+            background-color: #e53935;
+        }
+        .count {
+            font-size: 18px;
+            margin: 5px 10px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>My Super Blog</h1>
+    <h1>My Super Cool Blog</h1>
 
     <!-- Blog Posts Section -->
     <div id="posts"></div>
@@ -83,10 +114,14 @@
             }
         ];
 
+        // Post likes/dislikes (static for now, will reset on page refresh)
+        let likes = Array(posts.length).fill(0);
+        let dislikes = Array(posts.length).fill(0);
+
         const postsContainer = document.getElementById('posts');
 
         // Displaying the posts
-        posts.forEach(post => {
+        posts.forEach((post, index) => {
             const postElement = document.createElement('div');
             postElement.classList.add('post');
 
@@ -96,6 +131,30 @@
             }
 
             postElement.innerHTML = postContent;
+
+            // Like and Dislike buttons
+            const likeDislikeDiv = document.createElement('div');
+            likeDislikeDiv.classList.add('like-dislike');
+
+            const likeButton = document.createElement('button');
+            likeButton.innerHTML = `Like 👍 <span class="count">${likes[index]}</span>`;
+            likeButton.onclick = () => {
+                likes[index]++;
+                likeButton.innerHTML = `Like 👍 <span class="count">${likes[index]}</span>`;
+            };
+
+            const dislikeButton = document.createElement('button');
+            dislikeButton.classList.add('dislike-btn');
+            dislikeButton.innerHTML = `Dislike 👎 <span class="count">${dislikes[index]}</span>`;
+            dislikeButton.onclick = () => {
+                dislikes[index]++;
+                dislikeButton.innerHTML = `Dislike 👎 <span class="count">${dislikes[index]}</span>`;
+            };
+
+            likeDislikeDiv.appendChild(likeButton);
+            likeDislikeDiv.appendChild(dislikeButton);
+            postElement.appendChild(likeDislikeDiv);
+
             postsContainer.appendChild(postElement);
         });
     </script>
