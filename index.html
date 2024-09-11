@@ -3,38 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple GitHub Blog</title>
+    <title>My Super GitHub Blog</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #e9ecef;
             margin: 0;
             padding: 20px;
         }
         h1 {
-            color: #333;
+            color: #0056b3;
+            text-align: center;
         }
         #posts {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .post {
             background-color: #fff;
+            border-radius: 8px;
             border: 1px solid #ddd;
+            margin-bottom: 15px;
+            padding: 15px;
+            box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .post h2 {
+            color: #0056b3;
             margin-bottom: 10px;
-            padding: 10px;
-            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+        }
+        .post p {
+            color: #333;
+        }
+        .post img {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <h1>My Blog</h1>
+    <h1>My Super Blog</h1>
 
     <!-- Blog Posts Section -->
     <div id="posts"></div>
 
     <script>
-        // Here we can use static JSON data for posts, since we are not using a server-side solution
+        // Static JSON data for blog posts
         const posts = [
             {
                 title: "First Post",
@@ -44,18 +63,34 @@
                 title: "Second Post",
                 content: "This is the content of the second post."
             },
-            {   title: "vihanga 1",
-                content: "hi welcome my blog"
+            {
+                title: "vihanga 1",
+                content: "Hi, welcome to my blog."
+            },
+            {
+                title: "මම විහඟ",
+                content: "ඔයාලට කොහොමද?"
+            },
+            {
+                title: "Third Post with Image",
+                content: "This post contains an image below.",
+                image: "https://via.placeholder.com/600x300"  // Example image URL
             }
         ];
 
         const postsContainer = document.getElementById('posts');
 
-        // Displaying posts
+        // Displaying the posts
         posts.forEach(post => {
             const postElement = document.createElement('div');
             postElement.classList.add('post');
-            postElement.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+
+            let postContent = `<h2>${post.title}</h2><p>${post.content}</p>`;
+            if (post.image) {
+                postContent += `<img src="${post.image}" alt="${post.title}">`;
+            }
+
+            postElement.innerHTML = postContent;
             postsContainer.appendChild(postElement);
         });
     </script>
