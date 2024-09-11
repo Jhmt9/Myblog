@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Blog with Saved Posts</title>
+    <title>My Simple GitHub Blog</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,125 +24,37 @@
             padding: 10px;
             box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
         }
-        #admin-section, #login-form {
-            background-color: #fff;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
-        }
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .hidden {
-            display: none;
-        }
-        .error {
-            color: red;
-            font-size: 0.9em;
-        }
     </style>
 </head>
 <body>
 
-    <h1>My Simple Blog</h1>
+    <h1>My Blog</h1>
 
     <!-- Blog Posts Section -->
     <div id="posts"></div>
 
-    <!-- Admin Section -->
-    <div id="admin-section" class="hidden">
-        <h2>Admin Dashboard</h2>
-        <textarea id="new-post-content" rows="4" placeholder="Write your new post here..."></textarea>
-        <button id="add-post">Add Post</button>
-    </div>
-
-    <!-- Login Form -->
-    <div id="login-form">
-        <h2>Admin Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <div id="error-message" class="error hidden">Incorrect username or password</div>
-        <button id="login-button">Login</button>
-    </div>
-
     <script>
-        // Default credentials (you can modify or enhance this with better storage or backend)
-        const correctUsername = "admin";
-        const correctPassword = "password123";
+        // Here we can use static JSON data for posts, since we are not using a server-side solution
+        const posts = [
+            {
+                title: "First Post",
+                content: "This is the content of the first post."
+            },
+            {
+                title: "Second Post",
+                content: "This is the content of the second post."
+            }
+        ];
 
-        // Login form elements
-        const loginForm = document.getElementById('login-form');
-        const adminSection = document.getElementById('admin-section');
-        const errorMessage = document.getElementById('error-message');
-
-        // Post elements
         const postsContainer = document.getElementById('posts');
-        const newPostContent = document.getElementById('new-post-content');
 
-        // Load posts from localStorage
-        function loadPosts() {
-            const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-            savedPosts.forEach(postContent => {
-                const postElement = document.createElement('div');
-                postElement.classList.add('post');
-                postElement.innerHTML = `<p>${postContent}</p>`;
-                postsContainer.appendChild(postElement);
-            });
-        }
-
-        // Save posts to localStorage
-        function savePost(postContent) {
-            const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-            savedPosts.push(postContent);
-            localStorage.setItem('posts', JSON.stringify(savedPosts));
-        }
-
-        // Function to handle login
-        document.getElementById('login-button').addEventListener('click', function () {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === correctUsername && password === correctPassword) {
-                loginForm.classList.add('hidden');
-                adminSection.classList.remove('hidden');
-                errorMessage.classList.add('hidden');
-            } else {
-                errorMessage.classList.remove('hidden');
-            }
+        // Displaying posts
+        posts.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+            postsContainer.appendChild(postElement);
         });
-
-        // Function to add a new post
-        document.getElementById('add-post').addEventListener('click', function () {
-            const postContent = newPostContent.value.trim();
-
-            if (postContent) {
-                const postElement = document.createElement('div');
-                postElement.classList.add('post');
-                postElement.innerHTML = `<p>${postContent}</p>`;
-                postsContainer.appendChild(postElement);
-                savePost(postContent); // Save post to localStorage
-                newPostContent.value = '';  // Clear the text area after posting
-            } else {
-                alert("Please write something before adding a post!");
-            }
-        });
-
-        // Load existing posts on page load
-        window.onload = loadPosts;
-
     </script>
 
 </body>
